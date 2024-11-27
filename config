@@ -48,12 +48,26 @@ client.focused	#65007e		#9500ba		#ffffff		#4e0b5f		#65007e
 gaps inner 10px
 workspace 1 gaps inner 0
 
+# Threshold max window size, depends on your display size
+floating_maximum_size 1920x1080 
+# Tell every window to behave centered.
+for_window [class=".*"] move absolute position center
+# If somehow a window dare to display outside the display,
+# force it with the following keybinding to center its
+# position
+bindsym $mod+c move absolute position center
+
 # Use pactl to adjust volume in PulseAudio.
 set $refresh_i3status killall -SIGUSR1 i3status
 bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ +10% && $refresh_i3status
 bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume @DEFAULT_SINK@ -10% && $refresh_i3status
 bindsym XF86AudioMute exec --no-startup-id pactl set-sink-mute @DEFAULT_SINK@ toggle && $refresh_i3status
 bindsym XF86AudioMicMute exec --no-startup-id pactl set-source-mute @DEFAULT_SOURCE@ toggle && $refresh_i3status
+
+# Screenshots
+bindsym Print exec --no-startup-id maim "/home/$USER/Pictures/$(date)"
+bindsym $mod+Print exec --no-startup-id maim --window $(xdotool getactivewindow) "/home/$USER/Pictures/$(date)"
+bindsym Shift+Print exec --no-startup-id maim --select "/home/$USER/Pictures/$(date)"
 
 # Use light to adjust brightness
 bindsym XF86MonBrightnessUp exec --no-startup-id light -A 5 && $refresh_i3status
